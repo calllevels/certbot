@@ -126,17 +126,20 @@ class AugeasBlockNode(AugeasDirectiveNode):
     def add_child_block(self, name, parameters=None, position=None):  # pragma: no cover
         """Adds a new BlockNode to the sequence of children"""
 
-        ipath, rpath, before = self._aug_resolve_child_position(name, position)
-        new_metadata = {"augeasparser": self.parser, "augeaspath": rpath}
+        insertpath, realpath, before = self._aug_resolve_child_position(
+            name,
+            position
+        )
+        new_metadata = {"augeasparser": self.parser, "augeaspath": realpath}
 
         # Create the new block
-        self.parser.aug.insert(ipath, name, before)
+        self.parser.aug.insert(insertpath, name, before)
 
         # Parameters will be set at the initializatio of the new object
         new_block = AugeasBlockNode(name=name,
                                     parameters=parameters,
                                     ancestor=assertions.PASS,
-                                    filepath=apache_util.get_file_path(rpath),
+                                    filepath=apache_util.get_file_path(realpath),
                                     metadata=new_metadata)
         return new_block
 
