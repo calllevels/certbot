@@ -132,7 +132,7 @@ class AugeasBlockNode(AugeasDirectiveNode):
         # Create the new block
         self.parser.aug.insert(ipath, name, before)
 
-        # Parameters will be set at the initializatio of the new object
+        # Parameters will be set at the initialization of the new object
         new_block = AugeasBlockNode(name=name,
                                     parameters=parameters,
                                     ancestor=assertions.PASS,
