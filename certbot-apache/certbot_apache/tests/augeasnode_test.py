@@ -198,4 +198,3 @@ class AugeasParserNodeTest(util.ApacheTest):
         new_block = parser.aug.match("{}/VirtualHost[2]".format(root_path))
         self.assertEqual(len(new_block), 1)
         self.assertTrue(vh.metadata["augeaspath"].endswith("VirtualHost[2]"))
-
