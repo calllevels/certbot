@@ -135,7 +135,7 @@ class AugeasBlockNode(AugeasDirectiveNode):
         # Create the new block
         self.parser.aug.insert(insertpath, name, before)
 
-        # Parameters will be set at the initializatio of the new object
+        # Parameters will be set at the initialization of the new object
         new_block = AugeasBlockNode(name=name,
                                     parameters=parameters,
                                     ancestor=assertions.PASS,
@@ -336,7 +336,7 @@ class AugeasBlockNode(AugeasDirectiveNode):
             counter
         )
 
-        # Inserting the only child child and appending as the last child work
+        # Inserting the only child and appending as the last child work
         # similarly in Augeas.
         append = not all_children or position is None or position >= len(all_children)
         if append:
