@@ -323,7 +323,7 @@ class AugeasBlockNode(AugeasDirectiveNode):
         # Augeas indices start at 1
         counter = 1
         for i, child in enumerate(all_children):
-            if position and i >= position:
+            if position is not None and i >= position:
                 # We're not going to insert the new node to an index after this
                 break
             childname = self._aug_get_name(child)
