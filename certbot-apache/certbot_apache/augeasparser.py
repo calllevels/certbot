@@ -1,5 +1,7 @@
 """ Augeas implementation of the ParserNode interfaces """
 
+from certbot import errors
+
 from certbot_apache import apache_util
 from certbot_apache import assertions
 from certbot_apache import interfaces
@@ -167,9 +169,19 @@ class AugeasBlockNode(AugeasDirectiveNode):
 
         return nodes
 
-    def delete_child(self, child):  # pragma: no cover
-        """Deletes a ParserNode from the sequence of children"""
-        pass
+    def delete_child(self, child):
+        """
+        Deletes a ParserNode from the sequence of children, and raises an
+        exception if it's unable to do so.
+
+        :param AugeasParserNode: child: A node to delete.
+        """
+        if not self.parser.aug.remove(child.metadata["augeaspath"]):
+
+            raise errors.PluginError(
+                ("Could not delete child node, the Augeas path: {} doesn't " +
+                "seem to exist.").format(child.metadata["augeaspath"])
+            )
 
     def unsaved_files(self):  # pragma: no cover
         """Returns a list of unsaved filepaths"""
