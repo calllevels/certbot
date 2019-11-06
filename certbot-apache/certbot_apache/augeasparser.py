@@ -171,7 +171,7 @@ class AugeasBlockNode(AugeasDirectiveNode):
         """Deletes a ParserNode from the sequence of children"""
         pass
 
-    def unsaved_files(self):  # pragma: no cover
+    def unsaved_files(self):
         """Returns a list of unsaved filepaths"""
         return self.parser.unsaved_files()
 
