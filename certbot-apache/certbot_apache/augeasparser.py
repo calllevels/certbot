@@ -1,5 +1,7 @@
 """ Augeas implementation of the ParserNode interfaces """
 
+from certbot import errors
+
 from certbot_apache import apache_util
 from certbot_apache import assertions
 from certbot_apache import interfaces
@@ -146,6 +148,9 @@ class AugeasBlockNode(AugeasDirectiveNode):
     # pylint: disable=unused-argument
     def add_child_directive(self, name, parameters=None, position=None):  # pragma: no cover
         """Adds a new DirectiveNode to the sequence of children"""
+
+        if not parameters:
+            raise errors.PluginError("Directive requires parameters and none were set.")
 
         insertpath, realpath, before = self._aug_resolve_child_position(
             "directive",

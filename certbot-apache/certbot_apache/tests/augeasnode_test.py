@@ -1,6 +1,8 @@
 """Tests for AugeasParserNode classes"""
 import mock
 
+from certbot import errors
+
 from acme.magic_typing import List  # pylint: disable=unused-import, no-name-in-module
 
 from certbot_apache import assertions
@@ -198,3 +200,22 @@ class AugeasParserNodeTest(util.ApacheTest):
         new_block = parser.aug.match("{}/VirtualHost[2]".format(root_path))
         self.assertEqual(len(new_block), 1)
         self.assertTrue(vh.metadata["augeaspath"].endswith("VirtualHost[2]"))
+
+    def test_add_child_directive(self):
+        self.config.parser_root.primary.add_child_directive(
+            "ThisWasAdded",
+            ["with", "parameters"],
+            position=0
+        )
+        dirs = self.config.parser_root.find_directives("ThisWasAdded")
+        self.assertEqual(len(dirs), 1)
+        self.assertEqual(dirs[0].parameters, ("with", "parameters"))
+        # The new directive was added to the very first line of the config
+        self.assertTrue(dirs[0].metadata["augeaspath"].endswith("[1]"))
+
+    def test_add_child_directive_exception(self):
+        self.assertRaises(
+            errors.PluginError,
+            self.config.parser_root.primary.add_child_directive,
+            "ThisRaisesErrorBecauseMissingParameters"
+        )
