@@ -22,8 +22,8 @@ class AugeasParserNode(interfaces.ParserNode):
         self.metadata = metadata
         self.parser = self.metadata.get("augeasparser")
 
-    def save(self, msg): # pragma: no cover
-        pass
+    def save(self, msg):
+        self.parser.save(msg)
 
 
 class AugeasCommentNode(AugeasParserNode):
@@ -173,7 +173,7 @@ class AugeasBlockNode(AugeasDirectiveNode):
 
     def unsaved_files(self):  # pragma: no cover
         """Returns a list of unsaved filepaths"""
-        return [assertions.PASS]
+        return self.parser.unsaved_files()
 
     def _create_commentnode(self, path):
         """Helper function to create a CommentNode from Augeas path"""
