@@ -1,6 +1,7 @@
 """ Augeas implementation of the ParserNode interfaces """
 
 from certbot import errors
+from certbot.compat import os
 
 from certbot_apache import apache_util
 from certbot_apache import assertions
@@ -8,7 +9,6 @@ from certbot_apache import interfaces
 from certbot_apache import parser
 from certbot_apache import parsernode_util as util
 
-from certbot.compat import os
 from acme.magic_typing import Set  # pylint: disable=unused-import, no-name-in-module
 
 
@@ -159,7 +159,6 @@ class AugeasBlockNode(AugeasDirectiveNode):
         new_metadata = {"augeasparser": self.parser, "augeaspath": realpath}
 
         # Create the new directive
-        print("{} : {}".format(insertpath, realpath))
         self.parser.aug.insert(insertpath, "directive", before)
         # Set the directive key
         self.parser.aug.set(realpath, name)
